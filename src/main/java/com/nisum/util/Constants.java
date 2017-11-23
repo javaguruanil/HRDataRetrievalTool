@@ -3,7 +3,6 @@ package com.nisum.util;
 public class Constants {
 
 	
-	// Email configuration for new user account
 	public static final String GMAIL_SMTP = "mail.smtp.auth";
 
 	public static final String TRUE_FLAG = "true";
