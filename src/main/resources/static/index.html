@@ -14,8 +14,10 @@
 </head>
 <body ng-app="hackathon" ng-controller="DataRetrievalController as vm"
 	ng-cloak>
+	
 	<div class="container-fluid">
 		<div id="wrapper">
+		
 			<nav class="navbar navbar-default customnav navbar-fixed-top"
 				role="navigation">
 				<div class="container-fluid">
@@ -70,6 +72,8 @@
 			<div id="page-content-wrapper">
 				<div class="page-content">
 					<div class="container-fluid">
+					
+					
 						
 						<div class="row" ng-repeat="array in vm.jsonArray" ng-if="vm.jsonArray.length>0">
 							<div style="float: right;">
@@ -79,6 +83,11 @@
 							</div>
 							{{showButton}}
 							<div id="exportthis{{$index}}">
+							
+							<span id="loadingDiv" style=" margin-left: 40%; margin-top: 20%; z-index: 2000; display: none; ">
+					<img src="http://www.tj-auctions.com/images/loading.gif" height="100px" width="100px"/> <font > Please wait... </font> 
+						</span>
+						
 								<h3>{{vm.titleArray[$index]}}</h3>
 								<table class="table table-striped">
 									<thead data-target="#tablebody{{$index}}" data-toggle="collapse" class="theadjson" ng-click="!showButton[$index]" >
@@ -102,12 +111,17 @@
 					</div>
 				</div>
 			</div>
-
+			
+			
+			
+						
+			
 			<div class="modal fade" id="myModal" role="dialog">
 				<div class="modal-dialog">
 
 					<!-- Modal content-->
 					<div class="modal-content">
+					
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h4 class="modal-title">Email PDF</h4>
@@ -116,8 +130,12 @@
 							<input type="email" id="email" ng-model="vm.email"
 								placeholder="Enter email Id" required
 								class="form-control input-lg" />
+								
+								
 						</div>
 						<div class="modal-footer">
+						
+						
 							<button type="button" class="btn btn-default btn-success"
 								ng-click="vm.sendMail()">Submit</button>
 							<button type="button" class="btn btn-default"

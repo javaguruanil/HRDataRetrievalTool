@@ -24,7 +24,20 @@
 		getTablesData();
 		
 		function sendMail(){
+			
 			if(vm.email != undefined && vm.email != null){
+				
+				$("#myModal").modal('hide');
+				
+				if($("#loadingDiv").is(":hidden")){
+					$("#loadingDiv").show();
+				}else{
+					 $('#loadingDiv').hide();
+				}
+				
+				
+				document.getElementById("loadingDiv").display="";
+				
 				var obj = {};
 				obj.email = vm.email;
 				obj.dataList = emailJson;
@@ -32,14 +45,36 @@
 				$http.post('sendMail', obj).then(successCallback, vm.errorCallback);
 				
 				function successCallback(response){
+					
+					if($("#loadingDiv").is(":hidden")){
+						$("#loadingDiv").show();
+					}else{
+						 $('#loadingDiv').hide();
+					}
+					
 					emailJson = []
-					$("#myModal").modal('hide');
+					//$("#myModal").modal('hide');
 					var data = response.data;
 					alert(data.result);
 				}
+				
+				if($("#loadingDiv").is(":hidden")){
+					$("#loadingDiv").show();
+				}else{
+					 $('#loadingDiv').hide();
+				}
+				 
 			}else{
 				alert('Please enter email.');
 			}
+			
+			if($("#loadingDiv").is(":hidden")){
+				$("#loadingDiv").show();
+			}else{
+				 $('#loadingDiv').hide();
+			}
+			
+			
 		}
 		
 		function openPdf(index){
