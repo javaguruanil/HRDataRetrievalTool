@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nisum.dao.DataRetrievalDAO;
 import com.nisum.service.EmailAccount;
 import com.nisum.service.GettingTableColumns;
-import com.nisum.util.DataRetrievalUtil;
 import com.nisum.util.MailSender;
 
 @RestController
@@ -31,9 +30,9 @@ public class DataRetrievalControlller {
 	private GettingTableColumns gettingTableColumns;
 
 	@RequestMapping(value = "/getTableColumnInfo")
-	public Map<String, List<String>> getTableColumnInfo() {
+	public Map<String,Map<String, List<String>>> getTableColumnInfo() {
 		// return DataRetrievalUtil.getTableColumnInfo();
-		Map<String, List<String>> mapTableCol = gettingTableColumns.getTableCols("hrportaldb");
+		Map<String, Map<String, List<String>>> mapTableCol = gettingTableColumns.getTableCols("hrportaldb_drt");
 		return mapTableCol;
 	}
 

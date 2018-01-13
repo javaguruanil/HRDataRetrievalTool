@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Nisum - Data Retrieval Tool</title>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css">
+<link href="css/dataretrieval.css" rel="stylesheet">
+<style>
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+</style>
+</head>
+<body ng-app="hackathon" ng-controller="DataRetrievalController as vm"
+	ng-cloak>
+	
+	<div class="container-fluid">
+		<div id="wrapper">
+		
+			<nav class="navbar navbar-default customnav navbar-fixed-top"
+				role="navigation">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed"
+							data-toggle="collapse" data-target="#navbar"
+							aria-expanded="false" aria-controls="navbar">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<button id="menu-toggle" class="btn btn-default toggle">
+							<span class="glyphicon glyphicon glyphicon-menu-hamburger"></span>
+						</button>
+
+					</div>
+					<div class="text-center navtext">
+						<h4>DATA RETRIEVAL TOOL</h4>
+					</div>
+				</div>
+			</nav>
+			<!-- Sidebar -->
+			<div id="sidebar-wrapper">
+				<nav id="spy">
+						<h4>Child Tables</h4>
+						<ul class="liststyle" ng-repeat="(key, value) in vm.dataMap.child">
+						<li><input type="checkbox" ng-model="vm.isSelected[$index]"><h4 class="panel-title" data-toggle="collapse"
+								data-target="#col{{$index}}childContent">
+								{{key}} <i class="glyphicon glyphicon-chevron-down pull-right"></i>
+							</h4>
+							<ul class="collapse" id="col{{$index}}childContent"
+								style="padding: 0px; margin: 5px;">
+								<li class="active" ng-repeat="tableCol in value"><input
+									type="checkbox" style="margin: 8px;"
+									ng-model="vm.selectedList[tableCol]"
+									ng-change="vm.generateReqData(key, $index, tableCol);" ng-checked="tableCol === 'emp_id'?true:vm.isSelected[$parent.$index]" ng-disabled="tableCol === 'emp_id'">{{tableCol}}
+								</li>
+							</ul></li>
+					</ul>
+					
+					
+					<h4>Reference (or) Parent Tables</h4>
+					<ul class="liststyle" ng-repeat="(key, value) in vm.dataMap.parent">
+						<li><input type="checkbox" ng-model="vm.isSelected[$index]"><h4 class="panel-title" data-toggle="collapse"
+								data-target="#col{{$index}}parentContent">
+								{{key}} <i class="glyphicon glyphicon-chevron-down pull-right"></i>
+							</h4>
+							<ul class="collapse" id="col{{$index}}parentContent"
+								style="padding: 0px; margin: 5px;">
+								<li class="active" ng-repeat="tableCol in value"><input
+									type="checkbox" style="margin: 8px;"
+									ng-model="vm.selectedList[tableCol]"
+									ng-change="vm.generateReqData(key, $index, tableCol);" ng-checked="tableCol === 'emp_id'?true:vm.isSelected[$parent.$index]" ng-disabled="tableCol === 'emp_id'">{{tableCol}}
+								</li>
+							</ul></li>
+					</ul>
+					<!-- <ul style="list-style-type: none;">
+						<li><button type="button" class="btn btn-success  pull-right"
+								ng-click="vm.submitData();">Submit</button></li>
+					</ul> -->
+				</nav>
+				<div class="row button-space">
+					<button type="button" class="btn btn-success"
+						data-toggle="modal" data-target="#descModal">Submit</button>
+
+				</div>
+			</div>
+
+			<!-- Page content -->
+			<div id="page-content-wrapper">
+				<div class="page-content">
+					<div class="container-fluid">
+					
+					
+						
+						<div class="row" ng-repeat="array in vm.jsonArray" ng-if="vm.jsonArray.length>0">
+							<div style="float: right;">
+								<button class="btn btn-primary" ng-click="vm.openPdf($index);">PDF</button>
+								<button ng-click="vm.loadJsonData(array, vm.titleArray[$index]);" style="margin: 10px;" class="btn btn-primary"
+									data-toggle="modal" data-target="#myModal">Email</button>
+							</div>
+							{{showButton}}
+							<div id="exportthis{{$index}}">
+							
+							<span id="loadingDiv" style=" margin-left: 40%; margin-top: 20%; z-index: 2000; display: none; ">
+					<img src="http://www.tj-auctions.com/images/loading.gif" height="100px" width="100px"/> <font > Please wait... </font> 
+						</span>
+						
+								<h3>{{vm.titleArray[$index]}}</h3>
+								<table class="table table-striped">
+									<thead data-target="#tablebody{{$index}}" data-toggle="collapse" class="theadjson" ng-click="!showButton[$index]" >
+										<tr>
+											<th ng-repeat="(key,value) in array[0]">{{key}}</th>
+										</tr>
+									</thead>
+									<tbody id="tablebody{{$index}}" class="collapse" ng-class="{'in': ($index+1)===vm.jsonArray.length}">
+										<tr ng-repeat="arr in array">
+											<td ng-repeat="(key,value) in arr"><span
+												ng-if="key.includes('date')">{{value |
+													date:'dd-MM-yyyy hh:mm:ss a Z'}}</span> <span
+												ng-if="!column.includes('date')">{{value}}</span></td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+						
+			
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+					
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Email PDF</h4>
+						</div>
+						<div class="modal-body">
+							<input type="email" id="email" ng-model="vm.email"
+								placeholder="Enter email Id" required
+								class="form-control input-lg" />
+								
+								
+						</div>
+						<div class="modal-footer">
+						
+						
+							<button type="button" class="btn btn-default btn-success"
+								ng-click="vm.sendMail()">Submit</button>
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="modal fade" id="descModal" role="dialog">
+				<div class="modal-dialog">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Data Description</h4>
+						</div>
+						<div class="modal-body">
+							<input type="text" ng-model="vm.titleDesc"
+								placeholder="Enter data description" required
+								class="form-control input-lg" />
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default btn-success"
+								ng-click="vm.submitData();">Submit</button>
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- 		
+
+		<div class="col-sm-4 col-md-4" id="accordion">
+            <div class="panel-group collapse in" style="margin-top:-10px;">
+                <div class="panel panel-default" ng-repeat="(key, value) in vm.dataMap" >
+                    <div class="panel-heading">
+                        >
+                    </div>
+                    <div id="col{{$index}}Content" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr ng-repeat="tableCol in value">
+                                    <td>
+                                        <input type="checkbox"
+							style="margin: 8px;" ng-model="vm.selectedList[tableCol]"
+							ng-change="vm.generateReqData(key, $index, tableCol);">{{tableCol}} </td>
+                                </tr>
+                                
+                            </table>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="row">
+				<div class="col-lg-12 margintop">
+					<button type="button" class="btn btn-primary  pull-right"
+						ng-click="vm.submitData();">Submit</button>
+				</div>
+			</div>
+        </div>  
+		 <div class="col-md-8 col-sm-8" ng-if="vm.jsonData.length>0">
+			<div style="float: right;">
+				<button class="btn btn-primary" ng-click="vm.openPdf();">PDF</button>
+				<button style="margin: 10px;" class="btn btn-primary">Email</button>
+			</div>
+			<div id="exportthis">
+				<h3>List of Data</h3>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th ng-repeat="col in vm.cols">{{col}}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="val in vm.jsonData">
+							<td ng-repeat="column in vm.cols"><span
+								ng-if="column.includes('date')">{{val[column] |
+									date:'dd-MM-yyyy hh:mm:ss a Z'}}</span> <span
+								ng-if="!column.includes('date')">{{val[column]}}</span></td>
+						</tr>
+						<tr>
+							<td ng-if="vm.jsonData.length == 0">No data available</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div> -->
+	</div>
+
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/dataretrieval.js"></script>
+	<script src="js/html2canvas.min.js"></script>
+	<script src="js/pdfmake.min.js"></script>
+	<script src="js/vfs_fonts.js"></script>
+	<script>
+		$('.panel-collapse').on('show.bs.collapse', function() {
+			$(this).siblings('.panel-heading').addClass('active');
+		});
+
+		$('.panel-collapse').on('hide.bs.collapse', function() {
+			$(this).siblings('.panel-heading').removeClass('active');
+		});
+		/*Menu-toggle*/
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("active");
+
+		});
+	</script>
+</body>
+</html>

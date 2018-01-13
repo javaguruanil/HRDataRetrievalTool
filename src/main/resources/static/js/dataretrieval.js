@@ -12,6 +12,7 @@
 			"emp_id" : true
 		};
 		vm.jsonData=[];
+		vm.isSelected=[];
 		vm.getTablesData = getTablesData;
 		vm.submitData = submitData;
 		vm.generateReqData = generateReqData;
