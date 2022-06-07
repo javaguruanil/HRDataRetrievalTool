@@ -17,6 +17,9 @@ import com.nisum.service.EmailAccount;
 import com.nisum.service.GettingTableColumns;
 import com.nisum.util.MailSender;
 
+/*
+It Spring Rest but not Jersey Implementation.
+*/
 @RestController
 public class DataRetrievalControlller {
 
