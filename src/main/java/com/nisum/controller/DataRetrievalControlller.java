@@ -21,7 +21,7 @@ import com.nisum.util.MailSender;
 It Spring Rest but not Jersey Implementation.
 */
 @RestController
-public class DataRetrievalControlller {
+public class DataRetrievalControlller {    
 
 	@Autowired
 	DataRetrievalDAO dataRetrievalDAO;
