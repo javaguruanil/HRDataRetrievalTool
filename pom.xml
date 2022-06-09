@@ -9,9 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>HackathonDemo</name>
-	<build>
-		<finalName>Hackathon-Demo</finalName>
-	</build>
+
 	<description>Demo project for Hackathon</description>
 
 	<parent>
@@ -82,6 +80,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>Hackathon-Demo</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
