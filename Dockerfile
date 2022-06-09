@@ -1,4 +1,4 @@
 FROM java-openjdk11
 EXPOSE 8081
-ADD target/demo.jar   demo.jar
-ENTRYPOINT ["java", "-jar", "/demo.jar"]
+ADD target/Hackathon-Demo.jar   Hackathon-Demo.jar
+ENTRYPOINT ["java", "-jar", "/Hackathon-Demo.jar"]
