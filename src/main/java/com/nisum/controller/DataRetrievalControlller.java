@@ -31,6 +31,12 @@ public class DataRetrievalControlller {
 
 	@Autowired
 	private GettingTableColumns gettingTableColumns;
+	
+	
+	@RequestMapping(value = "/getData", method = RequestMethod.GET)
+	public String getDataAPI(){
+		return "hello em from the getDataAPI !!!!!!!!!"	;
+	}
 
 	@RequestMapping(value = "/getTableColumnInfo")
 	public Map<String,Map<String, List<String>>> getTableColumnInfo() {
