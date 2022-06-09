@@ -23,11 +23,13 @@ import javax.mail.util.ByteArrayDataSource;
 import com.nisum.service.GeneratePdfReport;
 
 public class MailSender {
-
-
-	
-
-	public static  void sendEmail( String sendMail,String password,String toMail,String ccMail,String emailSubject,String bodyMsg, List<Map<String,Object>> dataList) throws Exception{
+	public static  void sendEmail( String sendMail
+				       ,String password
+				       ,String toMail
+				       ,String ccMail
+				       ,String emailSubject
+				       ,String bodyMsg
+				       , List<Map<String,Object>> dataList) throws Exception{
 
 		Properties props = new Properties();
 		props.put(Constants.GMAIL_SMTP, Constants.TRUE_FLAG);
