@@ -34,6 +34,7 @@ public class DataRetrievalControlller {
 
 	@RequestMapping(value = "/getTableColumnInfo")
 	public Map<String,Map<String, List<String>>> getTableColumnInfo() {
+		//TODO : In future check & clean it.
 		// return DataRetrievalUtil.getTableColumnInfo();
 		Map<String, Map<String, List<String>>> mapTableCol = gettingTableColumns.getTableCols("hrportaldb_drt");
 		return mapTableCol;
